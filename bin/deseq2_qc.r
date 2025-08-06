@@ -1,5 +1,7 @@
 #!/usr/bin/env Rscript
 
+# Written by Harshil Patel and Gavin Kelly and released under the MIT license.
+
 ################################################
 ################################################
 ## REQUIREMENTS                               ##
@@ -77,10 +79,10 @@ decompose       <- n_components!=1 && all(sapply(name_components, length)==n_com
 coldata         <- data.frame(samples.vec, sample=samples.vec, row.names=1)
 if (decompose) {
     groupings        <- as.data.frame(lapply(1:n_components, function(i) sapply(name_components, "[[", i)))
-    names(groupings) <- paste0("Group", 1:n_components)
     n_distinct       <- sapply(groupings, function(grp) length(unique(grp)))
     groupings        <- groupings[n_distinct!=1 & n_distinct!=length(samples.vec)]
     if (ncol(groupings)!=0) {
+        names(groupings) <- paste0("Group", 1:ncol(groupings))
         coldata <- cbind(coldata, groupings)
     } else {
         decompose <- FALSE
@@ -90,7 +92,8 @@ if (decompose) {
 DDSFile <- paste(opt$outprefix,".dds.RData",sep="")
 
 counts  <- count.table[,samples.vec,drop=FALSE]
-dds     <- DESeqDataSetFromMatrix(countData=round(counts), colData=coldata, design=~ 1)
+# `design=~1` creates intercept-only model, equivalent to setting `blind=TRUE` for transformation.
+dds     <- DESeqDataSetFromMatrix(countData=round(counts), colData=coldata, design=~1)
 dds     <- estimateSizeFactors(dds)
 if (min(dim(count.table))<=1)  { # No point if only one sample, or one gene
     save(dds,file=DDSFile)

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Written by Senthilkumar Panneerselvam and released under the MIT license.
+
 import argparse
 import logging
 import os
@@ -19,12 +21,10 @@ mqc_pconf = """#    percent_{ft}:
 #        description: '% reads overlapping {ft} features'
 #        max: 100
 #        min: 0
-#        scale: 'RdYlGn-rev'
-#        format: '{{:.2f}}%'"""
+#        scale: 'RdYlGn-rev'"""
 
 
 def mqc_feature_stat(bfile, features, outfile, sname=None):
-
     # If sample name not given use file name
     if not sname:
         sname = os.path.splitext(os.path.basename(bfile))[0]

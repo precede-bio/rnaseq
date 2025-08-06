@@ -14,7 +14,7 @@
     <div style="font-family: Helvetica, Arial, sans-serif; padding: 30px; max-width: 800px; margin: 0 auto">
       <img src="cid:nfcorepipelinelogo" />
 
-      <h1>nf-core/rnaseq v${version}</h1>
+      <h1>nf-core/rnaseq ${version}</h1>
       <h2>Run Name: $runName</h2>
 
       <% if (!success){ out << """
@@ -34,29 +34,6 @@
         <p>The full error message was:</p>
         <pre style="white-space: pre-wrap; overflow: visible; margin-bottom: 0">${errorReport}</pre>
       </div>
-      """ } else if(fail_percent_mapped.size() > 0) { out << """
-      <div
-        style="
-          color: #856404;
-          background-color: #fff3cd;
-          border-color: #ffeeba;
-          padding: 15px;
-          margin-bottom: 20px;
-          border: 1px solid transparent;
-          border-radius: 4px;
-        "
-      >
-        <h4 style="margin-top: 0; color: inherit">nf-core/rnaseq execution completed with warnings!</h4>
-        <p>
-          The pipeline finished successfully, but the following samples were skipped due to very low alignment (&lt;
-          ${min_mapped_reads}%):
-        </p>
-        <ul>
-          <li><code>${fail_percent_mapped.join('</code></li><li><code>')}</code></li>
-        </ul>
-        <p></p>
-      </div>
-
       """ } else { out << """
       <div
         style="
