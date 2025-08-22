@@ -15,6 +15,9 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+// Enable workflow output preview feature
+nextflow.preview.output = true
+
 params.fasta            = getGenomeAttribute('fasta')
 params.additional_fasta = getGenomeAttribute('additional_fasta')
 params.transcript_fasta = getGenomeAttribute('transcript_fasta')
