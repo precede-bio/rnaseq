@@ -1,0 +1,2 @@
+sample,fastq_1,fastq_2,strandedness
+PB23125,s3://precede-novogene-upload-prod/X202SC25045282-Z01-F002/01.RawData/PB23125_CRAS250008680_5r/PB23125_CRAS250008680_5r_1.fq.gz,s3://precede-novogene-upload-prod/X202SC25045282-Z01-F002/01.RawData/PB23125_CRAS250008680_5r/PB23125_CRAS250008680_5r_2.fq.gz,auto
