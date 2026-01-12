@@ -17,8 +17,8 @@ process BAM_FINGERPRINT {
     genome_name = fasta.getBaseName()
     """
     picard CreateSequenceDictionary R=${fasta} O=${genome_name}.dict
-    samtools faidx ${fasta}
-    java -jar /opt/picard/picard.jar ExtractFingerprint \\
+
+    picard ExtractFingerprint \\
     -REFERENCE_SEQUENCE ${fasta} \\
     -VALIDATION_STRINGENCY SILENT \\
     -HAPLOTYPE_MAP ${fingerprint_map} \\
