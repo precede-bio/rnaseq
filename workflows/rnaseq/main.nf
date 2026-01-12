@@ -365,15 +365,11 @@ workflow RNASEQ {
     //
     // PROCESS: Fingerprinting analysis on dedup BAMs
     //
-    if (!params.skip_fingerprint && params.fingerprint_map) {
-        ch_fingerprint_map = Channel.value(file(params.fingerprint_map, checkIfExists: true))
-
-        BAM_FINGERPRINT(
-            ch_genome_bam,
-            ch_fingerprint_map,
-            ch_fasta
-        )
-    }
+    BAM_FINGERPRINT(
+        ch_genome_bam,
+        file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
+        ch_fasta
+    )
 
     //
     // Filter channels to get samples that passed STAR minimum mapping percentage
