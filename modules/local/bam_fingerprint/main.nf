@@ -22,7 +22,7 @@ process BAM_FINGERPRINT {
     -REFERENCE_SEQUENCE ${fasta} \\
     -VALIDATION_STRINGENCY SILENT \\
     -HAPLOTYPE_MAP ${fingerprint_map} \\
-    -INPUT ${bam[0]} \\
+    -INPUT ${bam} \\
     -OUTPUT ${name}.fp.vcf.gz \\
     -SAMPLE_ALIAS "${name}"
 
