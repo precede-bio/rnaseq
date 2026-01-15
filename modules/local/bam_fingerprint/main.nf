@@ -5,7 +5,7 @@ process BAM_FINGERPRINT {
     container 'biocontainers/picard:3.1.1--hdfd78af_0'
 
     input:
-    tuple val(meta), path(bam)
+    tuple val(meta), path(bam), path(bai)
     path fingerprint_map
     path fasta
     path fai

@@ -445,7 +445,7 @@ workflow RNASEQ {
     // PROCESS: Fingerprinting analysis on dedup BAMs
     //
     BAM_FINGERPRINT(
-        ch_genome_bam,
+        ch_genome_bam.join(ch_genome_bam_index, by: [0]),
         file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
         ch_fasta,
         ch_fai,
