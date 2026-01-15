@@ -363,15 +363,6 @@ workflow RNASEQ {
     }
 
     //
-    // PROCESS: Fingerprinting analysis on dedup BAMs
-    //
-    BAM_FINGERPRINT(
-        ch_genome_bam,
-        file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
-        ch_fasta
-    )
-
-    //
     // Filter channels to get samples that passed STAR minimum mapping percentage
     //
     if (!params.skip_alignment && params.aligner.contains('star')) {
@@ -449,6 +440,15 @@ workflow RNASEQ {
         }
         ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
     }
+
+        //
+    // PROCESS: Fingerprinting analysis on dedup BAMs
+    //
+    BAM_FINGERPRINT(
+        ch_genome_bam,
+        file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
+        ch_fasta
+    )
 
     //
     // MODULE: STRINGTIE
