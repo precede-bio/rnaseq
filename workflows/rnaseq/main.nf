@@ -447,7 +447,8 @@ workflow RNASEQ {
     BAM_FINGERPRINT(
         ch_genome_bam,
         file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
-        ch_fasta
+        ch_fasta,
+        ch_fai,
     )
 
     //

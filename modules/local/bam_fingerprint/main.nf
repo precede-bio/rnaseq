@@ -8,6 +8,7 @@ process BAM_FINGERPRINT {
     tuple val(meta), path(bam)
     path fingerprint_map
     path fasta
+    path fai
 
     output:
     tuple val(meta), path("*.fp.vcf.gz"), emit: fingerprint
