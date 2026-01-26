@@ -11,6 +11,7 @@ include { DESEQ2_QC as DESEQ2_QC_STAR_SALMON } from '../../modules/local/deseq2_
 include { DESEQ2_QC as DESEQ2_QC_RSEM        } from '../../modules/local/deseq2_qc'
 include { DESEQ2_QC as DESEQ2_QC_PSEUDO      } from '../../modules/local/deseq2_qc'
 include { MULTIQC_CUSTOM_BIOTYPE             } from '../../modules/local/multiqc_custom_biotype'
+include { BAM_FINGERPRINT                    } from '../../modules/local/bam_fingerprint'
 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
@@ -439,6 +440,16 @@ workflow RNASEQ {
         }
         ch_versions = ch_versions.mix(BAM_MARKDUPLICATES_PICARD.out.versions)
     }
+
+        //
+    // PROCESS: Fingerprinting analysis on dedup BAMs
+    //
+    BAM_FINGERPRINT(
+        ch_genome_bam.join(ch_genome_bam_index, by: [0]),
+        file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
+        ch_fasta,
+        ch_fai,
+    )
 
     //
     // MODULE: STRINGTIE
