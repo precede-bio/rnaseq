@@ -10,6 +10,7 @@
 include { DESEQ2_QC as DESEQ2_QC_BAM_SALMON } from '../../modules/local/deseq2_qc'
 include { DESEQ2_QC as DESEQ2_QC_RSEM        } from '../../modules/local/deseq2_qc'
 include { DESEQ2_QC as DESEQ2_QC_PSEUDO      } from '../../modules/local/deseq2_qc'
+include { BAM_FINGERPRINT                    } from '../../modules/local/bam_fingerprint'
 include { RUSTQC                              } from '../../modules/nf-core/rustqc/main'
 
 //
@@ -149,6 +150,7 @@ workflow RNASEQ {
         .fromList(samplesheetToList(params.input, "${projectDir}/assets/schema_input.json"))
         .map {
             meta, fastq_1, fastq_2, genome_bam, transcriptome_bam ->
+                meta.id = meta.id.toString()
                 if (!fastq_2) {
                     return [ meta.id, meta + [ single_end:true ], [ fastq_1 ], genome_bam, transcriptome_bam ]
                 } else {
@@ -526,6 +528,16 @@ workflow RNASEQ {
         ch_mqc_per_sample_bundle = ch_mqc_per_sample_bundle
             .join(ch_markdup_bundle, remainder: true)
     }
+
+    //
+    // PROCESS: Fingerprinting analysis on dedup BAMs
+    //
+    BAM_FINGERPRINT(
+        ch_genome_bam.join(ch_genome_bam_index, by: [0]),
+        file("$projectDir/assets/hg19_chr.map", checkIfExists: true),
+        ch_fasta,
+        ch_fai,
+    )
 
     //
     // MODULE: StringTie assembly and quantification
